@@ -52,7 +52,52 @@ Dodanie referencji:
 dotnet add src/BackupSystem.Api.IntegrationTests reference src/BackupSystem.Api
 ```
 
+---
 
+## BackupSystem.Core
 
+Projekt zawiera klasy reprezentujące system backupu plików i folderów.
 
+### Klasa FileBackup
+
+Klasa reprezentująca backup pojedynczego pliku.
+
+**Poznane mechanizmy:**
+- **Właściwości (Properties)** - `FileName`, `FileSizeInBytes`, `IsBackedUp` (z `private set`), `CreatedOn`
+- **Konstruktor** z parametrem opcjonalnym (`fileSizeInBytes = 0`)
+- **Metody** `Backup()` i `Restore()` z walidacją
+- **Wyjątki**: `FormatException` (pusta nazwa pliku), `InvalidOperationException` (nieprawidłowy rozmiar lub próba przywrócenia niebackupowanego pliku)
+
+### Klasa FolderBackup
+
+Klasa reprezentująca backup folderu zawierającego wiele plików.
+
+**Poznane mechanizmy:**
+- **Kolekcja** `List<FileBackup>` - lista typowana generycznie
+- **Iteracja** `foreach` - przechodzenie po elementach kolekcji
+- **Obsługa wyjątków** `try-catch` - przechwytywanie `FormatException` i kontynuacja dla pozostałych plików
+- **Rzucanie wyjątku** `Exception` gdy lista plików jest pusta
+
+---
+
+## BackupSystem.UnitTests
+
+Projekt zawiera testy jednostkowe dla klas z projektu BackupSystem.Core.
+
+### Framework testowy: xUnit
+
+**Poznane mechanizmy:**
+- **Atrybut** `[Fact]` - oznacza metodę testową
+- **Wzorzec AAA** (Arrange-Act-Assert) - struktura testów
+- **Metody `Assert`** - `Assert.True()`, `Assert.False()`, `Assert.Throws<T>()`, `Assert.All()`, `Assert.NotEqual()`
+- **`Action` i wyrażenia lambda** `() =>` - opakowanie kodu do testowania wyjątków
+- **LINQ** `Where()` i `ToList()` - filtrowanie kolekcji w testach
+
+### Klasa FileBackupTests
+
+Testy Happy Path i Unhappy Path dla klasy `FileBackup`. Weryfikacja zachowań konstruktora, metod `Backup()` i `Restore()`, oraz obsługi wyjątków.
+
+### Klasa FolderBackupTests
+
+Testy Happy Path i Unhappy Path dla klasy `FolderBackup`. Weryfikacja backupu wielu plików, pomijania niepoprawnych plików, oraz obsługi pustej listy.
 
