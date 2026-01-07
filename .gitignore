@@ -262,6 +262,8 @@ Generated_Code/
 # because we have git ;-)
 _UpgradeReport_Files/
 Backup*/
+# Exception: don't ignore BackupSystem projects in src/
+!src/BackupSystem*/
 UpgradeLog*.XML
 UpgradeLog*.htm
 ServiceFabricBackup/
