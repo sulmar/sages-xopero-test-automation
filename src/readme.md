@@ -101,3 +101,19 @@ Testy Happy Path i Unhappy Path dla klasy `FileBackup`. Weryfikacja zachowań ko
 
 Testy Happy Path i Unhappy Path dla klasy `FolderBackup`. Weryfikacja backupu wielu plików, pomijania niepoprawnych plików, oraz obsługi pustej listy.
 
+---
+
+## Powrót do tagu unit-test-foundations
+
+Aby wrócić do stanu projektu z tagiem `unit-test-foundations` (zawierającego opis projektów BackupSystem.Core i BackupSystem.UnitTests):
+
+```bash
+git checkout unit-test-foundations
+```
+
+Aby wrócić do najnowszej wersji na gałęzi `main`:
+
+```bash
+git checkout main
+```
+
