@@ -10,14 +10,17 @@ public class FileBackupTests
     private const string emptyFilename = "";
     private const long fileSizeIsNegative = -1;
 
+
+    private IFileSystem fileSystem;
+
     // Szablon nazewniczy 
     // MethodName_Scenario_ExpectedBehavior
-   
+
     // ctor - konstruktor w xUnit jest uruchamiany dla kazdego przypadku testowego osobno
     // Nie potrzebujemy TearUp jak na np. nUnit
     public FileBackupTests()
     {
-        
+        fileSystem = new FakeFileSystem(fileExists: true);
     }
 
     // Happy Path
@@ -25,21 +28,20 @@ public class FileBackupTests
     public void Backup_WhenFilenameIsValid_MarksFileAsBackedUp()
     {
         // Arrange
-        FileBackup fileBackup = new FileBackup(validFilename);
+        FileBackup fileBackup = new FileBackup(validFilename, fileSystem);
 
         // Act - to co testujemy
         fileBackup.Backup();
 
         // Assert - weryfikujemy zachowanie
         Assert.True(fileBackup.IsBackedUp);
-
     }
 
     [Fact]
     public void FileBackup_WhenCreated_SetCreateOnAndBackedUpIsFalse()
     {
         // Arrange
-        FileBackup fileBackup = new FileBackup(validFilename);
+        FileBackup fileBackup = new FileBackup(validFilename, fileSystem);
 
         // Act
 
@@ -54,7 +56,7 @@ public class FileBackupTests
     public void Backup_WhenFilenameIsEmpty_ThrowsFormatException()
     {
         // Arrange
-        FileBackup fileBackup = new FileBackup(emptyFilename);
+        FileBackup fileBackup = new FileBackup(emptyFilename, fileSystem);
 
         // Act
         Action act = () => fileBackup.Backup(); // zapis strzałkowy = wyrażenie lambda 
@@ -85,7 +87,7 @@ public class FileBackupTests
     public void Backup_WhenFileSizeIsNegative_ThrowsInvalidOperationException()
     {
         // Arrange
-        FileBackup fileBackup = new FileBackup(validFilename, fileSizeIsNegative);
+        FileBackup fileBackup = new FileBackup(validFilename, fileSystem, fileSizeIsNegative);
 
         // Act & Assert
         Assert.Throws<InvalidOperationException>(() => fileBackup.Backup());
@@ -96,7 +98,7 @@ public class FileBackupTests
     public void Restore_WhenBackuped_MarksFileAsNotBackedUp()
     {
         // Arrange
-        FileBackup fileBackup = new FileBackup(validFilename);
+        FileBackup fileBackup = new FileBackup(validFilename, fileSystem);
         fileBackup.Backup();
 
         // Act
@@ -111,7 +113,7 @@ public class FileBackupTests
     public void Restore_WhenNotBackuped_ThrowsInvalidOperationException()
     {
         // Arrange
-        FileBackup fileBackup = new FileBackup(validFilename);
+        FileBackup fileBackup = new FileBackup(validFilename, fileSystem);
 
         // Act
         Action act = () => fileBackup.Restore();

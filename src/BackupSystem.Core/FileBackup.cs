@@ -6,6 +6,38 @@ public class ItemBackup
 
 }
 
+// Kontrakt
+public interface IFileSystem
+{
+    bool Exists(string path); // sygnatura metody bez ciala
+}
+
+// Produkcja
+public class FileSystem : IFileSystem // implentuje interfejs IFileSystem
+{
+    public bool Exists(string path)
+    {
+        return File.Exists(path);
+    }
+}
+
+
+// Fake (falszywka)
+public class FakeFileSystem : IFileSystem
+{
+    private bool fileExists;
+    public FakeFileSystem(bool fileExists = true)
+    {
+        this.fileExists = fileExists;
+    }
+
+    public bool Exists(string path)
+    {
+        return fileExists;
+    }
+}
+
+
 public class FileBackup
 {
     public string FileName { get; set; } // Property (wlasciwosc)
@@ -13,30 +45,40 @@ public class FileBackup
     public bool IsBackedUp { get; private set; } // Property (wlasciwosc)
     public DateTime CreatedOn { get; set; } // Property (wlasciwosc)
 
+    private IFileSystem fileSystem;
+
     // Konstruktor (constructor) 
     // metoda uruchamiana podczas tworzenia obiektu
     // i sluzy do przekazania wymaganych parametrow np. filename
     // oraz do ustawiania parametrów domyslnych np. IsBackedUp
-    public FileBackup(string filename, long fileSizeInBytes = 0)
+    public FileBackup(string filename, IFileSystem fileSystem, long fileSizeInBytes = 0)
     {
         FileName = filename;
         IsBackedUp = false;
         CreatedOn = DateTime.Now;
         FileSizeInBytes = fileSizeInBytes;
+        this.fileSystem = fileSystem;
     }
 
     // Metoda (method)
     public void Backup()
     {        
-        // Walidacja
+        Validate();
+
+        // Logika
+        Thread.Sleep(10_000); // Symulacja dlugotrwajacej operacji (Sleep - uspienie watku na okreslony czas)
+
+        IsBackedUp = true;
+    }
+
+    // Metod prywatnych nie testujemy! 
+    private void Validate()
+    {
         if (string.IsNullOrEmpty(FileName))
             throw new FormatException("File name is invalid");
 
         if (FileSizeInBytes < 0)
             throw new InvalidOperationException("File size is invalid");
-
-        // Logika
-        IsBackedUp = true;
     }
 
     
