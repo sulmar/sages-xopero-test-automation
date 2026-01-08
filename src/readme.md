@@ -66,7 +66,12 @@ Klasa reprezentująca backup pojedynczego pliku.
 - **Właściwości (Properties)** - `FileName`, `FileSizeInBytes`, `IsBackedUp` (z `private set`), `CreatedOn`
 - **Konstruktor** z parametrem opcjonalnym (`fileSizeInBytes = 0`)
 - **Metody** `Backup()` i `Restore()` z walidacją
-- **Wyjątki**: `FormatException` (pusta nazwa pliku), `InvalidOperationException` (nieprawidłowy rozmiar lub próba przywrócenia niebackupowanego pliku)
+- **Wyjątki**: `FormatException` (pusta nazwa pliku), `InvalidOperationException` (nieprawidłowy rozmiar lub próba przywrócenia niebackupowanego pliku), `FileNotFoundException` (plik nie istnieje)
+- **Dependency Injection** - wstrzykiwanie `IFileSystem` przez konstruktor
+- **Interfejsy** - `IFileSystem` jako kontrakt, implementacje `FileSystem` (produkcja) i `FakeFileSystem` (testy)
+- **Test doubles (Fakes)** - `FakeFileSystem` do izolacji testów od systemu plików
+- **Metody prywatne** - refaktoryzacja walidacji do metody `Validate()`
+- **Programowanie asynchroniczne** - metoda `BackupAsync()` z `async Task` i `await Task.Delay()`
 
 ### Klasa FolderBackup
 
@@ -77,6 +82,7 @@ Klasa reprezentująca backup folderu zawierającego wiele plików.
 - **Iteracja** `foreach` - przechodzenie po elementach kolekcji
 - **Obsługa wyjątków** `try-catch` - przechwytywanie `FormatException` i kontynuacja dla pozostałych plików
 - **Rzucanie wyjątku** `Exception` gdy lista plików jest pusta
+- **LINQ** - metoda `CalculateTotalSize()` używająca `Sum()` z wyrażeniem lambda do obliczania całkowitego rozmiaru folderu
 
 ---
 
@@ -99,7 +105,56 @@ Testy Happy Path i Unhappy Path dla klasy `FileBackup`. Weryfikacja zachowań ko
 
 ### Klasa FolderBackupTests
 
-Testy Happy Path i Unhappy Path dla klasy `FolderBackup`. Weryfikacja backupu wielu plików, pomijania niepoprawnych plików, oraz obsługi pustej listy.
+Testy Happy Path i Unhappy Path dla klasy `FolderBackup`. Weryfikacja backupu wielu plików, pomijania niepoprawnych plików, oraz obsługi pustej listy. Testy dla metody `CalculateTotalSize()` z użyciem LINQ.
+
+### Klasa AuthenticationServiceTests
+
+Testy dla klasy `AuthenticationService` z użyciem `[Theory]` i `[InlineData]` do testów parametrycznych. Weryfikacja logowania i sprawdzania roli użytkownika.
+
+### Klasa LoginPageTests i HomePageTests
+
+Testy integracyjne dla wzorca Page Object - `LoginPage` i `HomePage`. Demonstracja testowania współpracy między komponentami z użyciem Dependency Injection.
+
+---
+
+## Nowe mechanizmy i wzorce
+
+### Dependency Injection
+
+Wprowadzenie interfejsu `IFileSystem` pozwala na izolację testów od systemu plików. Implementacje:
+- `FileSystem` - produkcyjna implementacja używająca `File.Exists()`
+- `FakeFileSystem` - implementacja testowa (test double) pozwalająca kontrolować zachowanie w testach
+
+### Programowanie asynchroniczne
+
+Metoda `BackupAsync()` demonstruje użycie `async/await` w C#. Testowanie metod asynchronicznych w xUnit wymaga użycia `async Task` w sygnaturze testu.
+
+### LINQ
+
+Użycie LINQ `Sum()` z wyrażeniem lambda (`file => file.FileSizeInBytes`) do operacji na kolekcjach zamiast tradycyjnych pętli `foreach`.
+
+### AuthenticationService
+
+Klasa serwisu z logiką autentykacji:
+- Właściwość `IsAuthenticated` z `private set` do śledzenia stanu
+- Metoda `Login()` z walidacją
+- Metoda `IsInRole()` do sprawdzania roli użytkownika
+
+### UserAccount
+
+Klasa z mechanizmem bezpieczeństwa:
+- Śledzenie nieudanych prób logowania (`FailedLoginAttempts`)
+- Blokowanie konta po przekroczeniu limitu (`MaxLoginAttempts = 3`)
+- Właściwość `IsLocked` z `private set`
+- Rzucanie `InvalidOperationException` przy próbie logowania na zablokowane konto
+
+### Page Object Pattern
+
+Wzorzec reprezentujący strony aplikacji jako klasy:
+- `LoginPage` - reprezentacja strony logowania
+- `HomePage` - reprezentacja strony głównej z właściwością `IsAuthorized`
+- Dependency Injection - strony otrzymują `AuthenticationService` przez konstruktor
+- Testowanie integracji komponentów
 
 ---
 
