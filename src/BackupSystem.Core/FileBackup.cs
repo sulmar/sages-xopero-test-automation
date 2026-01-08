@@ -79,6 +79,10 @@ public class FileBackup
 
         if (FileSizeInBytes < 0)
             throw new InvalidOperationException("File size is invalid");
+
+        // if (!File.Exists(FileName)) // sztywna zaleznosc
+         if (!fileSystem.Exists(FileName))   
+            throw new FileNotFoundException("File not found", FileName);
     }
 
     

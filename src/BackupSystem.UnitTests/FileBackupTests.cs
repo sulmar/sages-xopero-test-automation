@@ -38,6 +38,33 @@ public class FileBackupTests
     }
 
     [Fact]
+    public void Backup_WhenFileExists_FileAsBackedUp()
+    {
+        // Arrange
+        FileBackup fileBackup = new FileBackup(validFilename, fileSystem);
+
+        // Act
+        fileBackup.Backup();
+
+        // Assert
+        Assert.True(fileBackup.IsBackedUp);
+    }
+
+    [Fact]
+    public void Backup_WhenFileNotExists_ThrowFileNotFoundException()
+    {
+        // Arrange
+        IFileSystem fileSystem = new FakeFileSystem(fileExists: false);
+        FileBackup fileBackup = new FileBackup(validFilename, fileSystem);
+
+        // Act
+        Action act = () => fileBackup.Backup();
+
+        // Assert
+        Assert.Throws<FileNotFoundException>(act);
+    }
+
+    [Fact]
     public void FileBackup_WhenCreated_SetCreateOnAndBackedUpIsFalse()
     {
         // Arrange
