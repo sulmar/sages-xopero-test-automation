@@ -37,6 +37,21 @@ public class FileBackupTests
         Assert.True(fileBackup.IsBackedUp);
     }
 
+
+    // Happy Path
+    [Fact] // Atrybut oznaczajacy test w bibliotece xUnit
+    public async Task BackupAsync_WhenFilenameIsValid_MarksFileAsBackedUp()
+    {
+        // Arrange
+        FileBackup fileBackup = new FileBackup(validFilename, fileSystem);
+
+        // Act - to co testujemy
+        await fileBackup.BackupAsync();
+
+        // Assert - weryfikujemy zachowanie
+        Assert.True(fileBackup.IsBackedUp);
+    }
+
     [Fact]
     public void Backup_WhenFileExists_FileAsBackedUp()
     {

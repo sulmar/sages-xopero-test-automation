@@ -71,6 +71,15 @@ public class FileBackup
         IsBackedUp = true;
     }
 
+    public async Task BackupAsync()
+    {
+        Validate();
+
+        await Task.Delay(10_000); // // Symulacja dlugotrwajacej operacji (Sleep - uspienie zadamia na okreslony czas)
+
+        IsBackedUp = true;
+    }
+
     // Metod prywatnych nie testujemy! 
     private void Validate()
     {
