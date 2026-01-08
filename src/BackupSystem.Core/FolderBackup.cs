@@ -35,4 +35,25 @@ public class FolderBackup
             }
         }
     }
+
+
+    public long CalculateTotalSize()
+    {
+        long totalSize = 0;
+
+        //foreach (FileBackup fileBackup in FileBackups)
+        //{
+        //    totalSize = totalSize + fileBackup.FileSizeInBytes;
+        //}
+
+        //foreach (FileBackup fileBackup in FileBackups)
+        //{
+        //    totalSize += fileBackup.FileSizeInBytes;
+        //}
+
+        // Linq (oparty o wyrazenia lambda, czyli funkje strzalkowe)
+        totalSize = FileBackups.Sum(file => file.FileSizeInBytes);
+
+        return totalSize;
+    }
 }
