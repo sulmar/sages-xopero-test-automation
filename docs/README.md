@@ -41,7 +41,9 @@ gdy kod powstaje z waszych pytań.
 ## Repozytorium
 
 - `src/` – kod, który stworzymy razem
-- `docs/` – ściągawki i notatki pomocnicze
+- `docs/` – ściągawki i notatki pomocnicze:
+  - `docs/testing-mindset.md` – mindset i podejście do testów
+  - `docs/unit-tests-cheatsheet.md` – ściąga z dobrych praktyk unit testów
 
 Jeśli się zgubisz:
 - możesz podejrzeć historię zmian (`git log --oneline`)
