@@ -4,9 +4,13 @@ namespace BackupSystem.UiTests.Pages;
 
 public class InventoryPage : BasePage
 {
+    private const string ShoppingCartBadgeSelector = ".shopping_cart_badge";
+    private const string InventoryContainer = ".inventory_list";
+
     public InventoryPage(IPage page) : base(page)
     {
     }
+
 
     public async Task<int> GetCartItemCountAsync()
     {
@@ -18,10 +22,15 @@ public class InventoryPage : BasePage
 
     private async Task<int> GetCartBadgeCount()
     {
-        if (!await page.IsVisibleAsync(".shopping_cart_badge"))
+        if (!await page.IsVisibleAsync(ShoppingCartBadgeSelector))
             return 0;
 
-        var text = await page.InnerTextAsync(".shopping_cart_badge");
+        var text = await page.InnerTextAsync(ShoppingCartBadgeSelector);
         return int.Parse(text);
+    }
+
+    public async Task<bool> IsDisplayed()
+    {
+        return await page.Locator(InventoryContainer).IsVisibleAsync();
     }
 }

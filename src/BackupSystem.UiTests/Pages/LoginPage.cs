@@ -26,13 +26,7 @@ public class LoginPage : BasePage
     public async Task LoginAsStandardUser()
     {
         await LoginAs("standard_user", "secret_sauce");
-    }
-
-    public async Task<bool> IsLogged()
-    {
-        await page.WaitForURLAsync("**/inventory.html");
-        return page.Url.EndsWith("inventory.html");
-    }
+    }   
 
     public async Task<bool> HasError()
     {
