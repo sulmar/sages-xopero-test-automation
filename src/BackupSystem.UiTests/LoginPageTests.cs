@@ -11,6 +11,9 @@ public class LoginPageTests : BasePageTests
         // Act
         await loginPage.LoginAs("standard_user", "secret_sauce");
 
+        // BARDZO WAŻNE - zapis video
+        await StopVideo();
+
         // Assert
         Assert.True(await loginPage.IsLogged());                
     }
