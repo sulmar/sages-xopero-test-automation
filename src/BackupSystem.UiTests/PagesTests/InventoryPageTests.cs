@@ -5,35 +5,32 @@ namespace BackupSystem.UiTests.PagesTests;
 
 
 public class InventoryPageTests : SauceDemoPageTests
-{
-    private InventoryPage inventoryPage => new InventoryPage(page);
-    private LoginPage loginPage => new LoginPage(page);
-
+{    
     [Fact]
     public async Task AddToCart_WhenProductAdded_CartWithOneProduct()
     {
         // Arrange        
-        await loginPage.LoginAsStandardUser();
+        await LoginPage.LoginAsStandardUser();
 
         // Act
-        await inventoryPage.AddToCart(Product.Backpack);
+        await InventoryPage.AddToCart(Product.Backpack);
 
         // Assert
-        Assert.Equal(1, await inventoryPage.GetCartItemCountAsync());
+        Assert.Equal(1, await InventoryPage.GetCartItemCountAsync());
     }
 
     [Fact]
     public async Task AddToCart_WhenProductAdded_CartWithTwoProducts()
     {
         // Arrange        
-        await loginPage.LoginAsStandardUser();
+        await LoginPage.LoginAsStandardUser();
 
         // Act
-        await inventoryPage.AddToCart(Product.Backpack);
-        await inventoryPage.AddToCart(Product.BikeLight);
+        await InventoryPage.AddToCart(Product.Backpack);
+        await InventoryPage.AddToCart(Product.BikeLight);
 
         // Assert
-        Assert.Equal(2, await inventoryPage.GetCartItemCountAsync());
+        Assert.Equal(2, await InventoryPage.GetCartItemCountAsync());
     }
 
 
@@ -45,15 +42,15 @@ public class InventoryPageTests : SauceDemoPageTests
     int expectedCount)
     {
         // Arrange
-        await loginPage.LoginAsStandardUser(); 
+        await LoginPage.LoginAsStandardUser(); 
 
         // Act
         foreach (var product in products)
         {
-            await inventoryPage.AddToCart(product);
+            await InventoryPage.AddToCart(product);
         }
 
         // Assert
-        Assert.Equal(expectedCount, await inventoryPage.GetCartItemCountAsync());
+        Assert.Equal(expectedCount, await InventoryPage.GetCartItemCountAsync());
     }
 }
