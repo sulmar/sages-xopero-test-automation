@@ -43,7 +43,7 @@ public class UserAccount
         if (IsLocked)
             throw new InvalidOperationException("Account is locked.");
 
-        if (login != _login || password != _password)
+        if (login != _login || password == _password)
         {
             FailedLoginAttempts++;
 
