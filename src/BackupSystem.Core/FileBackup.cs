@@ -1,43 +1,5 @@
 ﻿namespace BackupSystem.Core;
 
-
-public class ItemBackup
-{
-
-}
-
-// Kontrakt
-public interface IFileSystem
-{
-    bool Exists(string path); // sygnatura metody bez ciala
-}
-
-// Produkcja
-public class FileSystem : IFileSystem // implentuje interfejs IFileSystem
-{
-    public bool Exists(string path)
-    {
-        return File.Exists(path);
-    }
-}
-
-
-// Fake (falszywka)
-public class FakeFileSystem : IFileSystem
-{
-    private bool fileExists;
-    public FakeFileSystem(bool fileExists = true)
-    {
-        this.fileExists = fileExists;
-    }
-
-    public bool Exists(string path)
-    {
-        return fileExists;
-    }
-}
-
-
 public class FileBackup
 {
     public string FileName { get; set; } // Property (wlasciwosc)

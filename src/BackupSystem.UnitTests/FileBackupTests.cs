@@ -4,6 +4,22 @@ namespace BackupSystem.UnitTests;
 
 // TODO: wyjasnic IClassFixture
 
+// Fake (falszywka)
+public class FakeFileSystem : IFileSystem
+{
+    private bool fileExists;
+    public FakeFileSystem(bool fileExists = true)
+    {
+        this.fileExists = fileExists;
+    }
+
+    public bool Exists(string path)
+    {
+        return fileExists;
+    }
+}
+
+
 public class FileBackupTests
 {
     private const string validFilename = "a.pdf";
