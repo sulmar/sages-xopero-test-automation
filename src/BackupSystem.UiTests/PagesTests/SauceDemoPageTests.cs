@@ -7,7 +7,6 @@ public abstract class SauceDemoPageTests : BasePageTests
 {
     protected override string BaseUrl => "https://www.saucedemo.com/";
 
-    protected InventoryPage InventoryPage => new InventoryPage(page);
-    protected LoginPage LoginPage => new LoginPage(page);
-
+    protected LoginPage LoginPage => new(page);
+    protected InventoryPage InventoryPage => new(page);    
 }
