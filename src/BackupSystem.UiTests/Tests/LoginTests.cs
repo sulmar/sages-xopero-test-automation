@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BackupSystem.UiTests;
+namespace BackupSystem.UiTests.Tests;
 
 public class LoginTests
 {

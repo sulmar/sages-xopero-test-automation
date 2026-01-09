@@ -1,17 +1,14 @@
 ﻿using Microsoft.Playwright;
 
-namespace BackupSystem.UiTests;
+namespace BackupSystem.UiTests.Pages;
 
 
 // Wzorzec: Page Object Model
 
-public class LoginPage
+public class LoginPage : BasePage
 {
-    private readonly IPage page;
-
-    public LoginPage(IPage page)
+    public LoginPage(IPage page) : base(page)
     {
-        this.page = page;
     }
 
     private const string UsernameFieldSelector = "#user-name";
@@ -24,6 +21,11 @@ public class LoginPage
         await page.FillAsync(UsernameFieldSelector, username);
         await page.FillAsync(PasswordFieldSelector, password);
         await page.ClickAsync(LoginButtonSelector);
+    }
+
+    public async Task LoginAsStandardUser()
+    {
+        await LoginAs("standard_user", "secret_sauce");
     }
 
     public async Task<bool> IsLogged()
