@@ -49,7 +49,16 @@ Jeśli się zgubisz:
 - możesz podejrzeć historię zmian (`git log --oneline`)
 - możesz cofnąć się do wcześniejszego commita (`git checkout <commit-id>`)
 
+
 ---
 
 > „Dobry test pomaga zrozumieć zachowanie systemu.  
 > Jeśli tego nie robi – to tylko kolejny kod.”
+
+## Polecane książki
+
+- **Jon Duckett**, *HTML i CSS. Zaprojektuj i zbuduj witrynę WWW. Podręcznik Front-End Developera*, **Helion**  
+  Klasyczny i bardzo przystępny podręcznik do podstaw HTML/CSS (świetny kontekst pod testy UI i selektory). 
+
+  ![Okładka: HTML i CSS — Jon Duckett (Helion)](https://static01.helion.com.pl/global/okladki/vbig/htcswv.jpg)
+
